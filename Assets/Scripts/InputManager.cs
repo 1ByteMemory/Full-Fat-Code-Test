@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 {
 
 	private TouchPhase tp;
+	
+
 
 	// Start is called before the first frame update
 	protected virtual void Start()
@@ -40,8 +42,20 @@ public class InputManager : MonoBehaviour
 				default:
 					break;
 			}
-
 		}
+
+#if UNITY_EDITOR
+		if (Input.GetMouseButtonDown(0))
+			OnTouchBegin();
+
+		if (Input.GetMouseButton(0) && Input.GetAxis("Mouse X") != 0)
+		{
+			OnTouchMove(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+		}
+		
+		if (Input.GetMouseButtonUp(0))
+			OnTouchRelease();
+#endif
 
 	}
 
