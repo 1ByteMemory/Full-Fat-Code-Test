@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void TouchEvent();
+public delegate void Event();
 
 public class InputManager : MonoBehaviour
 {
-	public event TouchEvent TouchBegin;
 
+	private TouchPhase tp;
 
-	TouchPhase tp;
-
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	protected virtual void Start()
+	{
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
+	// Update is called once per frame
+	protected virtual void Update()
+	{
 		if (Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -30,10 +28,12 @@ public class InputManager : MonoBehaviour
 					OnTouchBegin();
 					break;
 				case TouchPhase.Moved:
+					OnTouchMove(touch.deltaPosition);
 					break;
 				case TouchPhase.Stationary:
 					break;
 				case TouchPhase.Ended:
+					OnTouchRelease();
 					break;
 				case TouchPhase.Canceled:
 					break;
@@ -42,17 +42,22 @@ public class InputManager : MonoBehaviour
 			}
 
 		}
-        
-    }
+
+	}
 
 	protected virtual void OnTouchBegin()
 	{
-		TouchBegin?.Invoke();
+
 	}
 
-
-	private void OnGUI()
+	protected virtual void OnTouchMove(Vector2 delta)
 	{
-		GUI.TextArea(new Rect(10, 10, 100, 100), string.Format("Touch Phase: {0}", tp));	
+
 	}
+
+	protected virtual void OnTouchRelease()
+	{
+
+	}
+
 }

@@ -9725,6 +9725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508c2297b703ef8469aa5228a5f2333a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lanePos: 0
+  touchMoveDeadzone: 5
 --- !u!1 &129020
 GameObject:
   m_ObjectHideFlags: 0
