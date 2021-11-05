@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerController : InputManager
 {
+	public int numberOfLanes = 5;
 	public int lanePos;
+	public int startingLanePos = 3;
+	public float moveAmount = 2;
 
-	public float touchMoveDeadzone = 0.5f;
-	
+	public float speed = 0;
+	public float speedCap = 100;
+	public float speedIncreaseOverTime = 1;
 
 	bool ignoreInput;
 
@@ -15,6 +19,7 @@ public class PlayerController : InputManager
     protected override void Start()
     {
 		base.Start();
+		lanePos = startingLanePos;
 		
     }
 
@@ -22,29 +27,38 @@ public class PlayerController : InputManager
     protected override void Update()
     {
 		base.Update();
+
+		if (speed < speedCap)
+			speed += Time.deltaTime * speedIncreaseOverTime;
     }
 
+	private void FixedUpdate()
+	{
+		transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+	}
 
 	public void MovePlayer(float delatX)
 	{
-		Debug.Log("Moving");
 		if (!ignoreInput)
 		{
 			ignoreInput = true;
 
-			if (delatX > touchMoveDeadzone)
+			if (delatX > 0 && lanePos + 1 <= numberOfLanes)
 			{
-				// Move Right
-				Debug.Log("Moving player Right");
+				// Move Right if anble to
 
-				transform.Translate(Vector3.right, Space.Self);
+				Debug.Log("Moving player Right");
+				lanePos++;
+				transform.Translate(Vector3.right * moveAmount, Space.Self);
+
 			}
-			else if (delatX < -touchMoveDeadzone)
+			else if (delatX < 0 && lanePos - 1 > 0)
 			{
 				// Move Left
 				Debug.Log("Moving player Left");
 
-				transform.Translate(Vector3.left, Space.Self);
+				lanePos--;
+				transform.Translate(Vector3.left * moveAmount, Space.Self);
 			}
 		}
 	}
@@ -58,8 +72,8 @@ public class PlayerController : InputManager
 	protected override void OnTouchMove(Vector2 delta)
 	{
 		// Don't move player if swiping up or down
-		if (delta.y <= 1 && delta.y >= -1)
-			MovePlayer(delta.x);
+		//if (delta.y <= 10 && delta.y >= -10)  // this was arbitery so I commented it out
+		MovePlayer(delta.x);
 
 	}
 
