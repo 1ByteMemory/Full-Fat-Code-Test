@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class PlayerController : InputManager
 {
+	[Header("Lane Info")]
 	public int numberOfLanes = 5;
-	public int lanePos;
 	public int startingLanePos = 3;
 	public float moveAmount = 2;
 
-	public float speed = 0;
+	[Header("Speed")]
 	public float speedCap = 100;
 	public float speedIncreaseOverTime = 1;
+
+	[HideInInspector]
+	public int lanePos;
+	[HideInInspector]
+	public float speed = 0;
 
 	bool ignoreInput;
 

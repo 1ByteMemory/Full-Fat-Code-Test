@@ -466,6 +466,7 @@ GameObject:
   - component: {fileID: 609163456}
   - component: {fileID: 609163455}
   - component: {fileID: 609163457}
+  - component: {fileID: 609163458}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -493,7 +494,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609163454}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5858636, y: -6.1415205, z: 13.145883}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -512,6 +513,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnableDebugInfo: 1
+--- !u!114 &609163458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609163454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ed4cf916c1535488f8edaaa6303ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerToObstacleSpawnDistance: 30
+  minSpawnTime: 0
+  maxSpawnTime: 0
+  obsteclesList:
+  - {fileID: 1475056741}
+  - {fileID: 1016751367}
+  - {fileID: 1912398236}
+  - {fileID: 915317477}
+  - {fileID: 1061367373}
 --- !u!1 &657467330
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,31 +627,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 63.2325, y: -396.79208, z: -61.4484}
---- !u!1 &774864237 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 125256, guid: f41512e4a886a4540b815cfda783448c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2079406789}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &774864238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774864237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d4f93fd89dd45c4d9534be297893aeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 150
-  groundSize: 15
-  Grounds:
-  - {fileID: 180547975}
-  - {fileID: 1848652100}
-  - {fileID: 490512197}
-  - {fileID: 420936089}
 --- !u!4 &774864239 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 410126, guid: f41512e4a886a4540b815cfda783448c,
@@ -1706,15 +1703,30 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2153699724079531749, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: Grounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 180547975}
+    - target: {fileID: 2153699724079531749, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: Grounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 1848652100}
+    - target: {fileID: 2153699724079531749, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: Grounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 490512197}
+    - target: {fileID: 2153699724079531749, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: Grounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 420936089}
     - target: {fileID: 5369030581474564800, guid: f41512e4a886a4540b815cfda783448c,
         type: 3}
       propertyPath: touchMoveDeadzone
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5369030581474564800, guid: f41512e4a886a4540b815cfda783448c,
-        type: 3}
-      propertyPath: speedIncreaseOverTime
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f41512e4a886a4540b815cfda783448c, type: 3}

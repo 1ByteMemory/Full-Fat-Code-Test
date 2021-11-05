@@ -9690,9 +9690,10 @@ GameObject:
   m_Component:
   - component: {fileID: 410126}
   - component: {fileID: 5369030581474564800}
+  - component: {fileID: 2153699724079531749}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9725,8 +9726,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508c2297b703ef8469aa5228a5f2333a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfLanes: 5
+  startingLanePos: 3
+  moveAmount: 2
+  speedCap: 50
+  speedIncreaseOverTime: 1
   lanePos: 0
-  touchMoveDeadzone: 5
+  speed: 0
+--- !u!114 &2153699724079531749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d4f93fd89dd45c4d9534be297893aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 1000
+  groundZSize: 15
+  Grounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &129020
 GameObject:
   m_ObjectHideFlags: 0
