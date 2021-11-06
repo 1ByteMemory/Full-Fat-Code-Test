@@ -7,8 +7,7 @@ public class GroundReplacer : MonoBehaviour
 	public float maxDistance = 1000;
 	public float groundZSize = 15;
 	public GameObject[] Grounds;
-
-	bool movedGround = true;
+	
 
 	Vector3 startPosition;
 

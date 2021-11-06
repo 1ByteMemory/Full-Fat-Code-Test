@@ -15,6 +15,7 @@ public class Obstecles : MonoBehaviour
 
 	Transform player;
 	PlayerController pc;
+	GroundReplacer ground;
 
     // Start is called before the first frame update
     void Start()
@@ -23,41 +24,31 @@ public class Obstecles : MonoBehaviour
 		
 		pc = player.GetComponent<PlayerController>();
 
-		//spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(GetComponent<GroundReplacer>().groundZSize)];
+		ground = FindObjectOfType<GroundReplacer>();
 
-		for (int i = 0; i < obsteclesList.Length; i++)
+
+		// For each ground tile, execpt the first one (the player is there!)
+		for (int i = 1; i < ground.Grounds.Length; i++)
 		{
-			//SpawnObject(obsteclesList[i], 10 + i * 4);
+			// Generate spawning spots for the ground tile
+			spawningSpots = SpawnObjectOnGround(spawningSpots, 4);
+
+			// Place object on the marked spot
+
+
 		}
 
-		
-		// Generate spawning spots for a ground tile
-		spawningSpots = SpawnObjectOnGround(spawningSpots, 4);
-
-		// Place object on spot
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 	
+	
+	
 
-	void SpawnObject(Transform objectToSpawn, float distanceFromPlayer)
-	{
-		
-		Debug.Log("Object: " + objectToSpawn);
-		objectToSpawn.position = new Vector3(
-			RandLane(pc.numberOfLanes),					// Randomize its lane position
-			0,
-			Mathf.Floor(player.position.z + distanceFromPlayer)	// Set position infront of player, floored to make it more uniform
-		);
-		
-	}
-
+	/// <summary>
+	/// Generate a matrix of randomm spawning locations
+	/// </summary>
+	/// <param name="spawnMatrix">Matrix of spawning locations</param>
+	/// <param name="spawnIterations">Number of spawns</param>
+	/// <returns>A matrix with of spots to spawn an object</returns>
 	int[,] SpawnObjectOnGround(int[,] spawnMatrix, int spawnIterations)
 	{
 
@@ -67,6 +58,7 @@ public class Obstecles : MonoBehaviour
 			indicies[i] = Random.Range(0, spawnMatrix.Length);
 
 		// FOR DEBUGGING //
+		// Fills the matrix
 		//indicies = new int[spawnMatrix.Length];
 		//for (int i = 0; i < indicies.Length; i++) indicies[i] = i;
 		
