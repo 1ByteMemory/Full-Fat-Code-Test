@@ -11,7 +11,7 @@ public class Obstecles : MonoBehaviour
 
 	public Transform[] obsteclesList;
 
-	int[,] spawningSpots;
+	int[,] spawningSpots = new int[5,10];
 
 	Transform player;
 	PlayerController pc;
@@ -23,12 +23,20 @@ public class Obstecles : MonoBehaviour
 		
 		pc = player.GetComponent<PlayerController>();
 
-		spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(GetComponent<GroundReplacer>().groundZSize)];
+		//spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(GetComponent<GroundReplacer>().groundZSize)];
 
 		for (int i = 0; i < obsteclesList.Length; i++)
 		{
-			SpawnObject(obsteclesList[i], 10 + i * 4);
+			//SpawnObject(obsteclesList[i], 10 + i * 4);
 		}
+
+		
+		// Generate spawning spots for a ground tile
+		spawningSpots = SpawnObjectOnGround(spawningSpots, 4);
+
+		// Place object on spot
+
+
     }
 
     // Update is called once per frame
@@ -50,11 +58,39 @@ public class Obstecles : MonoBehaviour
 		
 	}
 
-	int RandYpos(int spaces)
+	int[,] SpawnObjectOnGround(int[,] spawnMatrix, int spawnIterations)
 	{
+
+		// Choose x amount of indicies
+		int[] indicies = new int[spawnIterations];
+		for (int i = 0; i < spawnIterations; i++)
+			indicies[i] = Random.Range(0, spawnMatrix.Length);
+
+		// FOR DEBUGGING //
+		//indicies = new int[spawnMatrix.Length];
+		//for (int i = 0; i < indicies.Length; i++) indicies[i] = i;
 		
-		return 0;
+		// ------------- //
+
+		// Mark those indicies for spawning an item
+		for (int i = 0; i < indicies.Length; i++)
+		{
+			// Calulate where the selcected indicy is
+			int x = indicies[i] % spawnMatrix.GetLength(0);
+			int y = indicies[i] / spawnMatrix.GetLength(0);
+
+			
+			// Mark it for spawning an object
+			spawnMatrix[x, y] = 1;
+		}
+
+
+		//for (int y = 0; y < spawnMatrix.GetLength(1); y++) Debug.Log(string.Format("[{0}, {1}, {2}, {3}, {4}]", spawnMatrix[0,y], spawnMatrix[1, y], spawnMatrix[2, y], spawnMatrix[3, y], spawnMatrix[4, y]));
+		
+
+		return spawnMatrix;
 	}
+	
 
 	/// <summary>
 	/// Returns the x position of a random lane
