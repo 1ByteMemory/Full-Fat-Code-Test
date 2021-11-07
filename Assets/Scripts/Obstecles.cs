@@ -25,7 +25,6 @@ public class Obstecles : MonoBehaviour
 
 		ground = FindObjectOfType<GroundReplacer>();
 
-		spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
 
 		// Individual enemy pools for each ground tile
 		obsteclePool = new ObjectPool[ground.Grounds.Length];
@@ -34,6 +33,8 @@ public class Obstecles : MonoBehaviour
 		// For each ground tile, execpt the first one (the player is there!)
 		for (int i = 0; i < ground.Grounds.Length; i++)
 		{
+			// Reset spawning matrix
+			spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
 			// Generate spawning spots for the ground tile
 			spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
 
@@ -60,6 +61,7 @@ public class Obstecles : MonoBehaviour
 				obsteclePool[i].pooledObjects[j].transform.localPosition = pos;
 
 				// Set active if not first tile and marked
+
 				if (i != 0 && spawningSpots[x, y] == 1)
 					obsteclePool[i].pooledObjects[j].SetActive(true);
 
@@ -85,6 +87,7 @@ public class Obstecles : MonoBehaviour
 		int[] indicies = new int[spawnIterations];
 		for (int i = 0; i < spawnIterations; i++)
 			indicies[i] = Random.Range(0, spawnMatrix.Length);
+		
 
 		// FOR DEBUGGING //
 		// Fills the matrix
@@ -105,8 +108,9 @@ public class Obstecles : MonoBehaviour
 			spawnMatrix[x, y] = 1;
 		}
 
-
+		//Debug.Log("=====================================");
 		//for (int y = 0; y < spawnMatrix.GetLength(1); y++) Debug.Log(string.Format("[{0}, {1}, {2}, {3}, {4}]", spawnMatrix[0,y], spawnMatrix[1, y], spawnMatrix[2, y], spawnMatrix[3, y], spawnMatrix[4, y]));
+		//Debug.Log("=====================================");
 		
 
 		return spawnMatrix;
