@@ -41,7 +41,8 @@ public class Obstecles : MonoBehaviour
 			obsteclePool[i] = new ObjectPool
 			{
 				// Set the amount to pool
-				amountToPool = Mathf.FloorToInt(ground.groundZSize / 2) * pc.numberOfLanes,
+				//amountToPool = Mathf.FloorToInt(ground.groundZSize / 2) * pc.numberOfLanes,
+				amountToPool = spawningSpots.Length,
 				objectToPool = staticEnemy
 			};
 
@@ -50,11 +51,13 @@ public class Obstecles : MonoBehaviour
 			
 			for (int j = 0; j < obsteclePool[i].pooledObjects.Length; j++)
 			{
+				// Reposition the pooled objects to a grid
 				int x = j % spawningSpots.GetLength(0);
-				int y = j / spawningSpots.GetLength(1);
+				int y = j / spawningSpots.GetLength(0);
 
-				// Reposition the pooled objects
-				obsteclePool[i].pooledObjects[j].transform.localPosition = new Vector3(x, 0, y);
+				Vector3 pos = new Vector3(LaneToPos(spawningSpots.GetLength(0), x), 0, LaneToPos(spawningSpots.GetLength(1), y));
+
+				obsteclePool[i].pooledObjects[j].transform.localPosition = pos;
 
 				// Set active if not first tile and marked
 				if (i != 0 && spawningSpots[x, y] == 1)
@@ -123,14 +126,18 @@ public class Obstecles : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns the x position of a given lane
+	/// Returns the 
 	/// </summary>
 	/// <param name="laneAmount"></param>
 	/// <param name="laneNumber"></param>
 	/// <returns></returns>
-	int LaneToXPos(int laneAmount, int laneNumber)
+	int LaneToPos(int laneAmount, int laneNumber)
 	{
 		return (laneNumber * 2) - (Mathf.FloorToInt(laneAmount / 2) * 2);
 	}
-
+	int LaneToPos(int laneAmount, int laneNumber, int spaceing)
+	{
+		if (spaceing == 0) spaceing = 1; Debug.LogWarning("Spacing was zero, setting to 1 to prevent dividing by 0"); // prevents deviding by zero
+		return (laneNumber * spaceing) - (Mathf.FloorToInt(laneAmount / spaceing) * spaceing);
+	}
 }
