@@ -465,7 +465,6 @@ GameObject:
   m_Component:
   - component: {fileID: 609163456}
   - component: {fileID: 609163455}
-  - component: {fileID: 609163457}
   - component: {fileID: 609163458}
   m_Layer: 0
   m_Name: _GameManager
@@ -500,18 +499,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &609163457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609163454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1679421b9b952a46bf335ee43b43665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &609163458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,15 +511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ed4cf916c1535488f8edaaa6303ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerToObstacleSpawnDistance: 30
-  minSpawnTime: 0
-  maxSpawnTime: 0
-  obsteclesList:
-  - {fileID: 1475056741}
-  - {fileID: 1016751367}
-  - {fileID: 1912398236}
-  - {fileID: 915317477}
-  - {fileID: 1061367373}
+  staticEnemy: {fileID: 175654, guid: 0e629452e469e461a8309110cd314de1, type: 3}
+  amountPerTile: 4
 --- !u!1 &657467330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1711674455
 Transform:
   m_ObjectHideFlags: 0

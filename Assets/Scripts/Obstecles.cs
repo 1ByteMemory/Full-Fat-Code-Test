@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Obstecles : MonoBehaviour
 {
+	public GameObject staticEnemy;
 
-	public float ObstacleSpawnDistance = 15;
-	public float minSpawnTime = 0.5f;
-	public float maxSpawnTime = 3.0f;
+	ObjectPool[] obsteclePool;
 
-	public Transform[] obsteclesList;
+	public int amountPerTile = 4;
 
-	int[,] spawningSpots = new int[5,10];
+	int[,] spawningSpots;
 
 	Transform player;
 	PlayerController pc;
@@ -26,15 +25,42 @@ public class Obstecles : MonoBehaviour
 
 		ground = FindObjectOfType<GroundReplacer>();
 
+		spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
+
+		// Individual enemy pools for each ground tile
+		obsteclePool = new ObjectPool[ground.Grounds.Length];
+
 
 		// For each ground tile, execpt the first one (the player is there!)
-		for (int i = 1; i < ground.Grounds.Length; i++)
+		for (int i = 0; i < ground.Grounds.Length; i++)
 		{
 			// Generate spawning spots for the ground tile
-			spawningSpots = SpawnObjectOnGround(spawningSpots, 4);
+			spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
 
-			// Place object on the marked spot
+			// Populate pool list
+			obsteclePool[i] = new ObjectPool
+			{
+				// Set the amount to pool
+				amountToPool = Mathf.FloorToInt(ground.groundZSize / 2) * pc.numberOfLanes,
+				objectToPool = staticEnemy
+			};
 
+			// Pool the objects
+			obsteclePool[i].InstatiateObjects(ground.Grounds[i].transform);
+			
+			for (int j = 0; j < obsteclePool[i].pooledObjects.Length; j++)
+			{
+				int x = j % spawningSpots.GetLength(0);
+				int y = j / spawningSpots.GetLength(1);
+
+				// Reposition the pooled objects
+				obsteclePool[i].pooledObjects[j].transform.localPosition = new Vector3(x, 0, y);
+
+				// Set active if not first tile and marked
+				if (i != 0 && spawningSpots[x, y] == 1)
+					obsteclePool[i].pooledObjects[j].SetActive(true);
+
+			}
 
 		}
 
@@ -49,7 +75,7 @@ public class Obstecles : MonoBehaviour
 	/// <param name="spawnMatrix">Matrix of spawning locations</param>
 	/// <param name="spawnIterations">Number of spawns</param>
 	/// <returns>A matrix with of spots to spawn an object</returns>
-	int[,] SpawnObjectOnGround(int[,] spawnMatrix, int spawnIterations)
+	int[,] GenerateSpawnMatrix(int[,] spawnMatrix, int spawnIterations)
 	{
 
 		// Choose x amount of indicies
@@ -83,7 +109,6 @@ public class Obstecles : MonoBehaviour
 		return spawnMatrix;
 	}
 	
-
 	/// <summary>
 	/// Returns the x position of a random lane
 	/// </summary>
