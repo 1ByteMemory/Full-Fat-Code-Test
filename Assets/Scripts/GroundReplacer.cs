@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,8 @@ public class GroundReplacer : MonoBehaviour
 	public float maxDistance = 1000;
 	public float groundZSize = 15;
 	public GameObject[] Grounds;
-	
+
+	public event EventHandler<int> NewGround;
 
 	Vector3 startPosition;
 
@@ -60,9 +62,12 @@ public class GroundReplacer : MonoBehaviour
 		{
 			//Debug.Log("Ground has moved");
 			Grounds[GroundsIndex].transform.Translate(Vector3.forward * groundZSize * Grounds.Length, Space.Self);
-			GroundsIndex++;
 
-			nextMovePosition.z += groundZSize; 
+			nextMovePosition.z += groundZSize;
+
+
+			OnNewGroundPlaced(GroundsIndex);
+			GroundsIndex++;
 		} 
 		
 
@@ -78,8 +83,14 @@ public class GroundReplacer : MonoBehaviour
 			
 			GroundsIndex = 0;   // reset index
 			nextMovePosition = new Vector3(0, 0, groundZSize);
+			
 		}
 
     }
-	
+
+	protected virtual void OnNewGroundPlaced(int value)
+	{
+		NewGround?.Invoke(this, value);
+	}
+
 }
