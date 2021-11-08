@@ -9,16 +9,21 @@ public class InputManager : MonoBehaviour
 
 	private TouchPhase tp;
 	
-
-
-	// Start is called before the first frame update
+	
 	protected virtual void Start()
 	{
+		GameManager.StartEvent += GameStart;
+		GameStart();
 	}
+	protected virtual void GameStart()
+	{
+	}
+
 
 	// Update is called once per frame
 	protected virtual void Update()
 	{
+		if (!GameManager.IsPlaying) return;
 		if (Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);

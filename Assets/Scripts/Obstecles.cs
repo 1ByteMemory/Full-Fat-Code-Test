@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,66 +6,81 @@ using UnityEngine;
 public class Obstecles : MonoBehaviour
 {
 	public GameObject staticEnemy;
-
+	
 	ObjectPool[] obsteclePool;
 
 	public int amountPerTile = 4;
 
 	int[,] spawningSpots;
+	Dictionary<int, int[,]> dictOccupiedSpots;
 
 	Transform player;
 	PlayerController pc;
 	GroundReplacer ground;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+	bool objectsInstatiated = false;
+
+	private void Start()
+	{
+		GameManager.StartEvent += GameStart;
 		player = GameObject.FindGameObjectWithTag("Player").transform;
-		
 		pc = player.GetComponent<PlayerController>();
-
 		ground = FindObjectOfType<GroundReplacer>();
-
-
+		
 		// Assign method to delegate
 		ground.NewGround += NewObjectConfiguration;
-
+		
 		// Individual enemy pools for each ground tile
 		obsteclePool = new ObjectPool[ground.Grounds.Length];
-
+		
+		GameStart();
+	}
+	
+	void GameStart()
+    {
 		// Initialize spawningSpots matrix
 		spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
+
+		dictOccupiedSpots = new Dictionary<int, int[,]>(ground.Grounds.Length);
 
 		// For each ground tile, execpt the first one (the player is there!)
 		for (int i = 0; i < ground.Grounds.Length; i++)
 		{
-			// Generate spawning spots for the ground tile
-			spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
-
-			// Populate pool list
-			obsteclePool[i] = new ObjectPool
+			if (!objectsInstatiated)
 			{
-				// Set the amount to pool
-				//amountToPool = Mathf.FloorToInt(ground.groundZSize / 2) * pc.numberOfLanes,
-				amountToPool = spawningSpots.Length,
-				objectToPool = staticEnemy
-			};
+				// Generate spawning spots for the ground tile
+				spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
+				dictOccupiedSpots[i] = spawningSpots;
 
-			// Pool the objects
-			obsteclePool[i].InstatiateObjects(ground.Grounds[i].transform);
-			
+				// Populate pool list
+				obsteclePool[i] = new ObjectPool
+				{
+					// Set the amount to pool
+					//amountToPool = Mathf.FloorToInt(ground.groundZSize / 2) * pc.numberOfLanes,
+					amountToPool = spawningSpots.Length,
+					objectToPool = staticEnemy
+				};
+
+				// Pool the objects
+				obsteclePool[i].InstatiateObjects(ground.Grounds[i].transform);
+			}
+
 			for (int j = 0; j < obsteclePool[i].pooledObjects.Length; j++)
 			{
 				// Reposition the pooled objects to a grid
 				int x = j % spawningSpots.GetLength(0);
 				int y = j / spawningSpots.GetLength(0);
 
-				Vector3 pos = new Vector3(LaneToPos(spawningSpots.GetLength(0), x), 0, LaneToPos(spawningSpots.GetLength(1), y));
+				if (!objectsInstatiated)
+				{
+					Vector3 pos = new Vector3(LaneToPos(spawningSpots.GetLength(0), x), 0, LaneToPos(spawningSpots.GetLength(1), y));
 
-				obsteclePool[i].pooledObjects[j].transform.localPosition = pos;
+					obsteclePool[i].pooledObjects[j].transform.localPosition = pos;
+				}
 
 				// Set active if not first tile and marked
 
+				obsteclePool[i].pooledObjects[j].SetActive(false);
 				if (i != 0 && spawningSpots[x, y] == 1)
 				{
 					obsteclePool[i].pooledObjects[j].SetActive(true);
@@ -73,7 +89,8 @@ public class Obstecles : MonoBehaviour
 
 			}
 		}
-    }
+		objectsInstatiated = true;
+	}
 
 	public void NewObjectConfiguration(object sender, int objectPoolIndex)
 	{
@@ -109,7 +126,7 @@ public class Obstecles : MonoBehaviour
 		// Choose x amount of indicies
 		int[] indicies = new int[spawnIterations];
 		for (int i = 0; i < spawnIterations; i++)
-			indicies[i] = Random.Range(0, spawnMatrix.Length);
+			indicies[i] = UnityEngine.Random.Range(0, spawnMatrix.Length);
 		
 
 		// FOR DEBUGGING //
@@ -146,7 +163,7 @@ public class Obstecles : MonoBehaviour
 	/// <returns></returns>
 	int RandLane(int laneAmount)
 	{
-		int randomLane = Random.Range(1, laneAmount + 1) * 2 - 2;
+		int randomLane = UnityEngine.Random.Range(1, laneAmount + 1) * 2 - 2;
 		int offset = Mathf.FloorToInt(laneAmount / 2) * 2;
 
 		return randomLane - offset;
@@ -167,4 +184,5 @@ public class Obstecles : MonoBehaviour
 		if (spaceing == 0) spaceing = 1; Debug.LogWarning("Spacing was zero, setting to 1 to prevent dividing by 0"); // prevents deviding by zero
 		return (laneNumber * spaceing) - (Mathf.FloorToInt(laneAmount / spaceing) * spaceing);
 	}
+	
 }

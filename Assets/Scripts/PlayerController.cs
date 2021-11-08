@@ -19,14 +19,16 @@ public class PlayerController : InputManager
 	public float speed = 0;
 
 	bool ignoreInput;
-
-    // Start is called before the first frame update
+	
     protected override void Start()
     {
 		base.Start();
-		lanePos = startingLanePos;
-		
     }
+    protected override void GameStart()
+	{
+		base.GameStart();
+		lanePos = startingLanePos;
+	}
 
     // Update is called once per frame
     protected override void Update()
@@ -39,6 +41,7 @@ public class PlayerController : InputManager
 
 	private void FixedUpdate()
 	{
+		if (!GameManager.IsPlaying) return;
 		transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
 	}
 
@@ -76,6 +79,7 @@ public class PlayerController : InputManager
 
 	protected override void OnTouchMove(Vector2 delta)
 	{
+		if (!GameManager.IsPlaying) return;
 		// Don't move player if swiping up or down
 		//if (delta.y <= 10 && delta.y >= -10)  // this was arbitery so I commented it out
 		MovePlayer(delta.x);

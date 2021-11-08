@@ -28,34 +28,23 @@ public class GroundReplacer : MonoBehaviour
 		}
 	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	private void Start()
+	{
+		GameManager.StartEvent += GameStart;
+		GameStart();
 		startPosition = transform.position;
-
+	}
+	void GameStart()
+    {
 		nextMovePosition = new Vector3(0, 0, groundZSize);
+		ResetTiles();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-		/* //Doesn't work properly at high speeds
-		
-		// Every x amount of meters, place ground infront of the player
-		// We floor the player position to ensure the ground isn't skipped.
-		if (!movedGround && Mathf.FloorToInt(transform.position.z) % groundSize == 0)
-		{
-			Debug.Log("Ground has moved");
-			Grounds[GroundsIndex].transform.Translate(Vector3.forward * groundZSize * Grounds.Length, Space.Self);
-			GroundsIndex++;
-			movedGround = true;
-		}
-		// This prevents the ground from moving ahead of the player
-		else if (movedGround && Mathf.FloorToInt(transform.position.z - 1) % groundSize == 0)
-		{
-			movedGround = false;
-		}
-		*/
+		if (!GameManager.IsPlaying) return;
 
 		// If player is ahead of next position
 		if (Vector3.Dot(transform.forward, nextMovePosition - transform.position) <= 0)
@@ -74,19 +63,24 @@ public class GroundReplacer : MonoBehaviour
 		// When the player reaches a maxiem distance, send everything back to avoid float errors
 		if (transform.position.z >= maxDistance)
 		{
-			transform.position = startPosition;
-
-			for (int i = 0; i < Grounds.Length; i++)
-			{
-				Grounds[i].transform.position = startPosition  + new Vector3(0, 0, i * groundZSize);
-			}
-			
-			GroundsIndex = 0;   // reset index
-			nextMovePosition = new Vector3(0, 0, groundZSize);
-			
+			ResetTiles();
 		}
 
     }
+	
+	void ResetTiles()
+	{
+		transform.position = startPosition;
+
+		for (int i = 0; i < Grounds.Length; i++)
+		{
+			Grounds[i].transform.position = startPosition + new Vector3(0, 0, i * groundZSize);
+		}
+
+		GroundsIndex = 0;   // reset index
+		nextMovePosition = new Vector3(0, 0, groundZSize);
+
+	}
 
 	protected virtual void OnNewGroundPlaced(int value)
 	{
