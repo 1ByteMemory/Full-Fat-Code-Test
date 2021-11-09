@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
 	public void GameOver()
 	{
-		finalScore.text = GetComponent<ScoreTracker>().score.ToString();
+		finalScore.text = Mathf.FloorToInt(GetComponent<ScoreTracker>().score).ToString();
 		resultsPage.SetActive(true);
 		IsPlaying = false;
 	}
