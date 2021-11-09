@@ -11,13 +11,14 @@ public class PlayerHealth : MonoBehaviour
 
 	PlayerController pc;
 	GameManager gm;
-
+	CameraController cam;
 	
 	private void Start()
 	{
 		GameManager.StartEvent += GameStart;
 		pc = GetComponent<PlayerController>();
 		gm = FindObjectOfType<GameManager>();
+		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
 
 		GameStart();
 	}
@@ -49,6 +50,9 @@ public class PlayerHealth : MonoBehaviour
 		else if (health >= 0)
 		{
 			Debug.Log("DAMAGE");
+			if (cam != null)
+				cam.CameraShake();
+
 			// Remove Shield
 			shields[health].SetActive(false);
 
@@ -60,6 +64,8 @@ public class PlayerHealth : MonoBehaviour
 		}
 		else
 		{
+			if (cam != null)
+				cam.CameraShake();
 			// plaeyer dead
 			Debug.Log("Player DEad");
 			gm.GameOver();

@@ -20,16 +20,20 @@ public class ScoreTracker : MonoBehaviour
 	public float multiplierIncreaseAmount = 0.5f;
 	public float multiplierTimer = 5;
 
+	float timerEnd;
 	
-	void GameStart()
+	void Start()
     {
 		GameManager.StartEvent += GameStart;
-		timerEnd = multiplierTimer;
 
 		GameStart();
 	}
+	void GameStart()
+	{
+		timerEnd = multiplierTimer;
 
-	float timerEnd;
+	}
+
     // Update is called once per frame
     void Update()
     {
