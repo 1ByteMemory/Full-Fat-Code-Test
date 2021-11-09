@@ -2167,5 +2167,15 @@ PrefabInstance:
       propertyPath: touchMoveDeadzone
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5856720355382941862, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: invulAnim
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856720355382941862, guid: f41512e4a886a4540b815cfda783448c,
+        type: 3}
+      propertyPath: invulTime
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f41512e4a886a4540b815cfda783448c, type: 3}
