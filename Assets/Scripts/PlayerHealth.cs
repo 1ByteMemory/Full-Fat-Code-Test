@@ -23,7 +23,11 @@ public class PlayerHealth : MonoBehaviour
 	}
 	private void GameStart()
 	{
-
+		health = shields.Length;
+		for (int i = 0; i < health; i++)
+		{
+			shields[i].SetActive(true);
+		}
 	}
 
 	public void AddHealth(int amount)
@@ -33,11 +37,14 @@ public class PlayerHealth : MonoBehaviour
 		
 		if (amount > 0)
 		{
-			// Add shield
-			shields[health].SetActive(true);
+			if (health < shields.Length)
+			{
+				// Add shield
+				shields[health].SetActive(true);
 
-			// Play animation
+				// Play animation
 
+			}
 		}
 		else if (health >= 0)
 		{

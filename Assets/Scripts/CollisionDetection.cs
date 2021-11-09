@@ -15,7 +15,8 @@ public class CollisionDetection : MonoBehaviour
 	public CollisionType collisionType;
 	public int collisionValue;
 
-	public ParticleSystem particleEffect;
+	public GameObject particleEffect;
+	ParticleSystem effect;
 
 	public event EventHandler<int> BonusEvent;
 	public event EventHandler<int> HealthEvent;
@@ -36,6 +37,9 @@ public class CollisionDetection : MonoBehaviour
 	}
 	private void GameStart()
 	{
+		if (particleEffect != null)
+			effect = particleEffect.GetComponentInChildren<ParticleSystem>();
+
 		if (score != null && health != null)
 		{
 			switch (collisionType)
@@ -58,6 +62,14 @@ public class CollisionDetection : MonoBehaviour
 		}
 	}
 
+	private void Update()
+	{
+		if (effect != null && !effect.isPlaying && particleEffect.activeInHierarchy)
+		{
+			particleEffect.SetActive(false);
+		}
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		
@@ -65,12 +77,15 @@ public class CollisionDetection : MonoBehaviour
 		{
 			OnCollision(collisionValue, collisionType);
 
+			gameObject.SetActive(false);
+
 			if (particleEffect != null)
 			{
-				particleEffect.Play();
+				particleEffect.SetActive(true);
 			}
 		}
 	}
+	
 
 	protected virtual void OnCollision(int value, CollisionType type)
 	{

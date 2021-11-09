@@ -6,7 +6,11 @@ using UnityEngine;
 public class Obstecles : MonoBehaviour
 {
 	public GameObject staticEnemy;
-	
+	public GameObject healthOrb;
+
+	[Range(0, 100)]
+	public float healthChance;
+
 	ObjectPool[] obsteclePool;
 
 	public int amountPerTile = 4;
@@ -38,6 +42,8 @@ public class Obstecles : MonoBehaviour
 	
 	void GameStart()
     {
+		healthOrb.transform.position = Vector3.back * 10;
+
 		// Initialize spawningSpots matrix
 		spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
 
@@ -110,6 +116,10 @@ public class Obstecles : MonoBehaviour
 				obsteclePool[objectPoolIndex].pooledObjects[i].SetActive(true);
 				spawningSpots[x, y] = 0; // Reset spot to zero, 
 			}
+			else if (spawningSpots[x,y] == 2)
+			{
+				healthOrb.transform.position = obsteclePool[objectPoolIndex].pooledObjects[i].transform.position;
+			}
 		}
 	}
 	
@@ -143,9 +153,12 @@ public class Obstecles : MonoBehaviour
 			int x = indicies[i] % spawnMatrix.GetLength(0);
 			int y = indicies[i] / spawnMatrix.GetLength(0);
 
-			
+
 			// Mark it for spawning an object
-			spawnMatrix[x, y] = 1;
+			float r = UnityEngine.Random.Range(0.0f, 100.0f);
+			// 1 = Enemy
+			// 2 = health
+			spawnMatrix[x, y] = r > 100.0f - healthChance ? 2 : 1;
 		}
 
 		//Debug.Log("=====================================");
