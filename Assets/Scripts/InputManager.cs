@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
 	{
 	}
 
+	float prevH; // For keybored inputs
 
 	// Update is called once per frame
 	protected virtual void Update()
@@ -57,9 +58,19 @@ public class InputManager : MonoBehaviour
 		{
 			OnTouchMove(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
 		}
-		
+
 		if (Input.GetMouseButtonUp(0))
 			OnTouchRelease();
+
+		// Keybored Inputs
+		float h = Input.GetAxisRaw("Horizontal");
+		if (h != 0 && prevH == 0)
+			OnTouchBegin();
+		if (h != 0)
+			OnTouchMove(new Vector2(h, 0));
+		if (h == 0 && prevH != 0)
+			OnTouchRelease();
+		prevH = h;
 #endif
 
 	}

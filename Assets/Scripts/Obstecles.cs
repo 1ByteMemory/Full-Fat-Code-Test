@@ -52,10 +52,10 @@ public class Obstecles : MonoBehaviour
 		// For each ground tile, execpt the first one (the player is there!)
 		for (int i = 0; i < ground.Grounds.Length; i++)
 		{
+			// Generate spawning spots for the ground tile
+			spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
 			if (!objectsInstatiated)
 			{
-				// Generate spawning spots for the ground tile
-				spawningSpots = GenerateSpawnMatrix(spawningSpots, amountPerTile);
 				dictOccupiedSpots[i] = spawningSpots;
 
 				// Populate pool list
