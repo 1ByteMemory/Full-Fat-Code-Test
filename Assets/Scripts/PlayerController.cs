@@ -28,6 +28,7 @@ public class PlayerController : InputManager
 	{
 		base.GameStart();
 		lanePos = startingLanePos;
+		speed = 0;
 	}
 
     // Update is called once per frame
