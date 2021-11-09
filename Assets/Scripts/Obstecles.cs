@@ -23,6 +23,7 @@ public class Obstecles : MonoBehaviour
 	GroundReplacer ground;
 
 	bool objectsInstatiated = false;
+	bool healthInField;
 
 	private void Start()
 	{
@@ -98,6 +99,17 @@ public class Obstecles : MonoBehaviour
 		objectsInstatiated = true;
 	}
 
+
+	private void Update()
+	{
+		// If the health orb is far behind the player, it is no longer in the field
+		if (healthOrb.transform.position.z - player.position.z < -10)
+		{
+			healthInField = false;
+			//healthOrb.transform.position = Vector3.back * 10;
+		}
+	}
+
 	public void NewObjectConfiguration(object sender, int objectPoolIndex)
 	{
 		//spawningSpots = new int[pc.numberOfLanes, Mathf.FloorToInt(ground.groundZSize / 2)];
@@ -111,14 +123,24 @@ public class Obstecles : MonoBehaviour
 
 			// Set false
 			obsteclePool[objectPoolIndex].pooledObjects[i].SetActive(false);
+			{
+			}
 			if (spawningSpots[x, y] == 1)
 			{
-				obsteclePool[objectPoolIndex].pooledObjects[i].SetActive(true);
+				// marked spot has a chance to be a health orb if not already in the field
+				float r = UnityEngine.Random.Range(0, 100.0f);
+				if (!healthInField && r > 100.0f - healthChance)
+				{
+					healthInField = true;
+					healthOrb.transform.position = obsteclePool[objectPoolIndex].pooledObjects[i].transform.position;
+					
+				}
+				else
+				{
+					obsteclePool[objectPoolIndex].pooledObjects[i].SetActive(true);
+				}
 				spawningSpots[x, y] = 0; // Reset spot to zero, 
-			}
-			else if (spawningSpots[x,y] == 2)
-			{
-				healthOrb.transform.position = obsteclePool[objectPoolIndex].pooledObjects[i].transform.position;
+
 			}
 		}
 	}
@@ -155,10 +177,7 @@ public class Obstecles : MonoBehaviour
 
 
 			// Mark it for spawning an object
-			float r = UnityEngine.Random.Range(0.0f, 100.0f);
-			// 1 = Enemy
-			// 2 = health
-			spawnMatrix[x, y] = r > 100.0f - healthChance ? 2 : 1;
+			spawnMatrix[x, y] = 1;
 		}
 
 		//Debug.Log("=====================================");

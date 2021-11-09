@@ -136,6 +136,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1189108345}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &184834012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184834011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f058b28a82dc940a695a94627e5ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 1424846228}
+  model:
+  - {fileID: 1083858484}
+  - {fileID: 311940725}
 --- !u!1 &311940725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 152992, guid: 5126e3554bdcc47fb97022dcfaa7d38f,
@@ -670,7 +686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staticEnemy: {fileID: 175654, guid: 0e629452e469e461a8309110cd314de1, type: 3}
   healthOrb: {fileID: 184834011}
-  healthChance: 0
+  healthChance: 100
   amountPerTile: 4
 --- !u!114 &609163459
 MonoBehaviour:
@@ -1443,6 +1459,22 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 19803268, guid: 5126e3554bdcc47fb97022dcfaa7d38f, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19814476, guid: 5126e3554bdcc47fb97022dcfaa7d38f, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19814476, guid: 5126e3554bdcc47fb97022dcfaa7d38f, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880232, guid: 5126e3554bdcc47fb97022dcfaa7d38f, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880232, guid: 5126e3554bdcc47fb97022dcfaa7d38f, type: 3}
       propertyPath: InitialModule.startRotationY.minMaxState
       value: 3
       objectReference: {fileID: 0}
